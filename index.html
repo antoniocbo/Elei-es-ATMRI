@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Eleições da ATMRI</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+body{
+    background: linear-gradient(135deg,#002855,#0a8f45);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+
+.container{
+    width:1200px;
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 0 30px rgba(0,0,0,.4);
+}
+
+.topo{
+    text-align:center;
+    background:#002855;
+    color:white;
+    padding:20px;
+}
+
+.topo h1{
+    font-size:40px;
+}
+
+.bandeira{
+    width:100%;
+    height:250px;
+    object-fit:cover;
+}
+
+.urna{
+    display:flex;
+    padding:20px;
+}
+
+.tela{
+    flex:2;
+    border:2px solid #ccc;
+    padding:20px;
+}
+
+.numero{
+    font-size:60px;
+    font-weight:bold;
+    margin-top:20px;
+}
+
+.candidato{
+    margin-top:20px;
+}
+
+.candidato img{
+    width:220px;
+    height:260px;
+    object-fit:cover;
+    border:3px solid #333;
+}
+
+.teclado{
+    flex:1;
+    background:#444;
+    padding:20px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+.btn{
+    height:70px;
+    font-size:30px;
+    cursor:pointer;
+    border:none;
+    border-radius:8px;
+}
+
+.numero-btn{
+    background:#111;
+    color:white;
+}
+
+.branco{
+    background:white;
+}
+
+.corrige{
+    background:orange;
+}
+
+.confirma{
+    background:green;
+    color:white;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="topo">
+<h1>Eleições da ATMRI</h1>
+<p>Escolha seu candidato</p>
+</div>
+
+<!-- Troque o src pela imagem da bandeira -->
+<img class="bandeira" src="bandeira.jpeg">
+
+<div class="urna">
+
+<div class="tela">
+
+<h2>SEU VOTO PARA</h2>
+
+<div class="numero" id="numero"></div>
+
+<div class="candidato">
+<h3 id="nome">Digite o número</h3>
+
+<img id="foto"
+src="https://via.placeholder.com/220x260?text=Candidato"
+alt="">
+</div>
+
+</div>
+
+<div class="teclado">
+
+<button class="btn numero-btn" onclick="digitar('1')">1</button>
+<button class="btn numero-btn" onclick="digitar('2')">2</button>
+<button class="btn numero-btn" onclick="digitar('3')">3</button>
+
+<button class="btn numero-btn" onclick="digitar('4')">4</button>
+<button class="btn numero-btn" onclick="digitar('5')">5</button>
+<button class="btn numero-btn" onclick="digitar('6')">6</button>
+
+<button class="btn numero-btn" onclick="digitar('7')">7</button>
+<button class="btn numero-btn" onclick="digitar('8')">8</button>
+<button class="btn numero-btn" onclick="digitar('9')">9</button>
+
+<button class="btn branco">BRANCO</button>
+<button class="btn numero-btn" onclick="digitar('0')">0</button>
+<button class="btn corrige" onclick="corrige()">CORRIGE</button>
+
+<button class="btn confirma"
+style="grid-column:span 3;height:80px;"
+onclick="confirma()">
+CONFIRMA
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<audio id="somTecla">
+    <source src="tecla.mp3" type="audio/mpeg">
+</audio>
+
+<audio id="somConfirma">
+    <source src="confirma.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+let voto = "";
+
+function digitar(num){
+
+    // Som ao apertar tecla
+    let somTecla = document.getElementById("somTecla");
+    somTecla.currentTime = 0;
+    somTecla.play();
+
+    if(voto.length < 2){
+        voto += num;
+    }
+
+    document.getElementById("numero").innerText = voto;
+
+    if(voto === "55"){
+        document.getElementById("nome").innerText =
+        "Gustavo Lima - Presidente";
+
+        document.getElementById("foto").src =
+        "candidato55.jpeg";
+    }
+
+    if(voto === "34"){
+        document.getElementById("nome").innerText =
+        "Caio Henrique - Presidente";
+
+        document.getElementById("foto").src =
+        "candidato34.jpeg";
+    }
+}
+
+function corrige(){
+
+    let somTecla = document.getElementById("somTecla");
+    somTecla.currentTime = 0;
+    somTecla.play();
+
+    voto = "";
+
+    document.getElementById("numero").innerText = "";
+
+    document.getElementById("nome").innerText =
+    "Digite o número";
+
+    document.getElementById("foto").src =
+    "placeholder.jpg";
+}
+
+function confirma(){
+
+    if(voto === "55" || voto === "34"){
+
+        let somConfirma =
+        document.getElementById("somConfirma");
+
+        somConfirma.currentTime = 0;
+        somConfirma.play();
+
+        alert("VOTO COMPUTADO");
+
+        voto = "";
+
+        document.getElementById("numero").innerText = "";
+
+        document.getElementById("nome").innerText =
+        "Digite o número";
+
+    } else {
+
+        alert("Digite um candidato válido");
+
+    }
+}
+
+</script>
+
+</body>
+</html>
